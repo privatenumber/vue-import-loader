@@ -1,0 +1,33 @@
+{
+  "name": "vue-global-component-loader",
+  "version": "1.0.0",
+  "description": "Webpack loader to register components at build-time",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/privatenumber/vue-global-component-loader.git"
+  },
+  "author": "Hiroki Osame <hiroki.osame@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/privatenumber/vue-global-component-loader/issues"
+  },
+  "homepage": "https://github.com/privatenumber/vue-global-component-loader#readme",
+  "devDependencies": {
+    "jest": "^26.0.1",
+    "memfs": "^3.2.0",
+    "outdent": "^0.7.1",
+    "unionfs": "^4.4.0",
+    "vue": "^2.6.11",
+    "vue-loader": "^15.9.2",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.43.0"
+  },
+  "dependencies": {
+    "loader-utils": "^2.0.0",
+    "memory-fs": "^0.5.0"
+  }
+}

@@ -101,7 +101,7 @@ describe('Component Registration', () => {
 			components: {
 				world: '/world.vue',
 				'goodbye-world': '/goodbyeWorld.vue',
-				unusedComp: '/should-not-exist.vue',
+				UnusedComp: '/should-not-exist.vue',
 			},
 		});
 
@@ -114,8 +114,41 @@ describe('Component Registration', () => {
 			'/index.vue': outdent`
 				<template>
 					<div>
-						<h1>Hello <world /></h1>
+						<h1>Hello <world-el /></h1>
 						<goodbye-world/>
+					</div>
+				</template>
+			`,
+			'/world.vue': outdent`
+			<template>
+				<span>world</span>
+			</template>
+			`,
+			'/goodbyeWorld.vue': outdent`
+			<template>
+				<h1>goodbye <WorldEl /></h1>
+			</template>
+			`
+		}, {
+			components: {
+				'world-el': '/world.vue',
+				'goodbye-world': '/goodbyeWorld.vue',
+				UnusedComp: '/should-not-exist.vue',
+			},
+		});
+
+		const vm = mount(Vue, built);
+		expect(vm.$el.outerHTML).toBe('<div><h1>Hello <span>world</span></h1> <h1>goodbye <span>world</span></h1></div>');
+	});
+
+
+	test('Dynamic component', async () => {
+		const built = await build({
+			'/index.vue': outdent`
+				<template>
+					<div>
+						<component :is="true ? 'world' : undefined" />
+						<component is="goodbye-world" />
 					</div>
 				</template>
 			`,
@@ -138,7 +171,7 @@ describe('Component Registration', () => {
 		});
 
 		const vm = mount(Vue, built);
-		expect(vm.$el.outerHTML).toBe('<div><h1>Hello <span>world</span></h1> <h1>goodbye <span>world</span></h1></div>');
+		expect(vm.$el.outerHTML).toBe('<div><span>world</span> <h1>goodbye <span>world</span></h1></div>');
 	});
 
 	test('Alias', async () => {
@@ -173,6 +206,35 @@ describe('Component Registration', () => {
 		expect(vm.$el.outerHTML).toBe('<div><h1>Hello <span>world</span></h1> <h1>goodbye <span>world</span></h1></div>');
 	});
 
-// resolve fn
-// async components
+	test('Resolve function', async () => {
+		const built = await build({
+			'/index.vue': outdent`
+				<template>
+					<div>
+						<h1>Hello <world /></h1>
+						<goodbye-world/>
+					</div>
+				</template>
+			`,
+			'/components/world.vue': outdent`
+			<template>
+				<span>world</span>
+			</template>
+			`,
+			'/components/goodbye-world.vue': outdent`
+			<template>
+				<h1>goodbye <world /></h1>
+			</template>
+			`
+		}, {
+			components(componentTag) {
+				if (['world', 'goodbye-world'].includes(componentTag)) {
+					return `/components/${componentTag}.vue`;
+				}
+			},
+		});
+
+		const vm = mount(Vue, built);
+		expect(vm.$el.outerHTML).toBe('<div><h1>Hello <span>world</span></h1> <h1>goodbye <span>world</span></h1></div>');
+	});
 });

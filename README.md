@@ -6,7 +6,9 @@
 	<a href="https://bundlephobia.com/result?p=vue-import-loader"><img src="https://badgen.net/bundlephobia/minzip/vue-import-loader"></a>
 </h1>
 
-Webpack loader to automatically detect & import used components. "Globally register" components without the bundling costs!
+Webpack loader to automatically detect & import used components.
+
+Use this loader to "globally register" components without the bundling costs!
 
 Credits to the [@nuxt/components](https://github.com/nuxt/components) for the idea ❤️
 
@@ -105,7 +107,7 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`:
   - Resolves components using a user-configured component-map or a resolution function
   - Has built-in static analysis to detect registered components
   - Supports dynamic components if possible values are inline `<component :is="condition ? 'comp-a' : 'comp-b'">`
-  - Supports [functional components](https://github.com/vuejs/vue-loader/issues/1013
+  - Supports [functional components](https://github.com/vuejs/vue-loader/issues/1013)
 
 ### Why wouldn't I want to use this?
 The costs of implicitly registering components locally is close to [registering components globally](https://vuejs.org/v2/guide/components-registration.html#Global-Registration).

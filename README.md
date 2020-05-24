@@ -6,7 +6,7 @@
 	<a href="https://bundlephobia.com/result?p=vue-import-loader"><img src="https://badgen.net/bundlephobia/minzip/vue-import-loader"></a>
 </h1>
 
-Webpack loader to automatically detect & import used components!
+Webpack loader to automatically detect & import used components. "Globally register" components without the bundling costs!
 
 Credits to the [@nuxt/components](https://github.com/nuxt/components) for the idea ❤️
 
@@ -14,8 +14,8 @@ Credits to the [@nuxt/components](https://github.com/nuxt/components) for the id
 - ⚡️ **Speed-up development** Automate registration concerns and focus on the logic!
 - 🌳 **Tree-shaking** Only imports unregistered components detected in template!
 - ❤️ **Chunking friendly** Locally registers components for optimal code-splitting!
-- 💠 **Dynamic Components** Supports `<component is="dynamic-comp">`! *
-- 🔥 **Functional-components** Supports components in [functional-components](https://github.com/vuejs/vue-loader/issues/1013)!
+- 💠 **Dynamic components** Supports `<component is="dynamic-comp">`! *
+- 🔥 **Functional components** Supports components in [functional components](https://github.com/vuejs/vue-loader/issues/1013)!
 
 _* The `is` attribute must contain the possible values inline_
 
@@ -27,7 +27,7 @@ npm i vue-import-loader
 ## 🚦 Quick Setup
 In your Webpack config, insert `vue-import-loader` before `vue-loader`
 
-**From**
+**Before**
 ```js
 {
 	test: /\.vue$/,
@@ -35,7 +35,7 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`
 }
 ```
 
-**To**
+**After ✨**
 ```js
 {
 	test: /\.vue$/,
@@ -66,12 +66,12 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`
 
 
 ## ⚙️ Options
-- `components`
+- `components` `Object|Function`
   - `Object`
     - Similar to Vue's `components` hash, where the key is the component tag in kebab-case or PascalCase, and the value is the component path (support aliases).
 
-  - `Function({ kebab, pascal }, fromComponent)`
-    - Use a function to dynamically resolve component tags to the component paths. For example, this function resolves components to the "components" directory:
+  - `Function` `({ kebab, pascal }, fromComponent)`
+    - Use a function to dynamically resolve component tags to component paths. For example, this function resolves components to the "components" directory:
     ```js
     components({ kebab }, fromComponent) {
     	const componentPath = `../components/${kebab}.vue`;
@@ -106,7 +106,7 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`
   - Resolves components using a user-configured component-map or a resolution function
   - Has built-in static analysis to detect registered components
   - Supports dynamic components `<component :is="">`
-  - Supports functional components
+  - Supports [functional components](https://github.com/vuejs/vue-loader/issues/1013
 
 ### Why wouldn't I want to use this?
 The costs of implicitly registering components locally is close to [registering components globally](https://vuejs.org/v2/guide/components-registration.html#Global-Registration).

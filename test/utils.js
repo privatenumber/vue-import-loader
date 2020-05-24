@@ -24,7 +24,7 @@ function build(volJson, loaderConfig = {}) {
 			},
 			resolveLoader: {
 				alias: {
-					'vue-global-component-loader': loaderPath,
+					'vue-import-loader': loaderPath,
 				},
 			},
 			module: {
@@ -33,7 +33,7 @@ function build(volJson, loaderConfig = {}) {
 						test: /\.vue$/,
 						use: [
 							{
-								loader: 'vue-global-component-loader',
+								loader: 'vue-import-loader',
 								options: loaderConfig,
 							},
 							'vue-loader',

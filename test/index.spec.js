@@ -312,8 +312,10 @@ describe('Component Registration', () => {
 		const vm = mount(Vue, built);
 		expect(vm.$el.outerHTML).toBe('<div><h1>Hello <span>world</span></h1> <h1>goodbye <span>world</span></h1></div>');
 	});
+});
 
-	test('Functional component', async () => {
+describe('Functional components', () => {
+	test('Functional mode disabled', async () => {
 		const built = await build({
 			'/index.vue': outdent`
 				<template>
@@ -350,7 +352,155 @@ describe('Component Registration', () => {
 		});
 
 		const vm = mount(Vue, built);
+		expect(vm.$el.outerHTML).toBe('<h1><goodbye></goodbye> <world></world></h1>');
+	});
+
+	test('Functional mode enabled', async () => {
+		const built = await build({
+			'/index.vue': outdent`
+				<template>
+					<goodbye-world/>
+				</template>
+			`,
+			'/components/goodbye-world.vue': outdent`
+			<template functional>
+				<h1><goodbye /> <world /></h1>
+			</template>
+			`,
+			'/components/goodbye.vue': outdent`
+			<template functional>
+				<span>good<bye /></span>
+			</template>
+			`,
+			'/components/bye.vue': outdent`
+			<template functional>
+				<span>bye</span>
+			</template>
+			`,
+			'/components/world.vue': outdent`
+			<template functional>
+				<span>world</span>
+			</template>
+			`,
+		}, {
+			functional: true,
+			components: {
+				GoodbyeWorld: '/components/goodbye-world.vue',
+				Goodbye: '/components/goodbye.vue',
+				Bye: '/components/bye.vue',
+				World: '/components/world.vue',
+			},
+		});
+
+		const vm = mount(Vue, built);
 		expect(vm.$el.outerHTML).toBe('<h1><span>good<span>bye</span></span> <span>world</span></h1>');
 	});
+
 });
+
+describe('Unused component detection', () => {
+	test('Don\'t import fake component - Pascal', async () => {
+		const built = await build({
+			'/index.vue': outdent`
+				<template>
+					<div>
+						<hello-world />
+					</div>
+				</template>
+				<script>
+				import HelloWorld from './hello-world-real.vue';
+
+				export default {
+					components: {
+						HelloWorld,
+						['random-comp']: {},
+						...({})
+					}
+				}
+				</script>
+			`,
+			'/hello-world-real.vue': outdent`
+			<template>
+				<span>hello world real</span>
+			</template>
+			`,
+		}, {
+			components: {
+				'hello-world': '/hello-world-non-existent.vue',
+			},
+		});
+
+		const vm = mount(Vue, built);
+		expect(vm.$el.outerHTML).toBe('<div><span>hello world real</span></div>');
+	});
+
+	test('Don\'t import fake component - kebab', async () => {
+		const built = await build({
+			'/index.vue': outdent`
+				<template>
+					<div>
+						<hello-world />
+					</div>
+				</template>
+				<script>
+				import HelloWorld from './hello-world-real.vue';
+
+				export default {
+					components: {
+						['hello-world']: HelloWorld,
+					}
+				}
+				</script>
+			`,
+			'/hello-world-real.vue': outdent`
+			<template>
+				<span>hello world real</span>
+			</template>
+			`,
+		}, {
+			components: {
+				'hello-world': '/hello-world-non-existent.vue',
+			},
+		});
+
+		const vm = mount(Vue, built);
+		expect(vm.$el.outerHTML).toBe('<div><span>hello world real</span></div>');
+	});
+
+	test('Won\'t detect registered', (cb) => {
+		build({
+			'/index.vue': outdent`
+				<template>
+					<div>
+						<hello-world />
+					</div>
+				</template>
+				<script>
+				import HelloWorld from './hello-world-real.vue';
+
+				const component = {
+					components: {
+						['hello-world']: HelloWorld,
+					}
+				};
+
+				export default component;
+				</script>
+			`,
+			'/hello-world-real.vue': outdent`
+			<template>
+				<span>hello world real</span>
+			</template>
+			`,
+		}, {
+			components: {
+				'hello-world': '/hello-world-trap.vue',
+			},
+		}).catch(err => {
+			// Expect error
+			cb();
+		});
+	});
+});
+
 

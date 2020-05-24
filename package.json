@@ -1,21 +1,24 @@
 {
-  "name": "vue-global-component-loader",
+  "name": "vue-import-loader",
   "version": "1.0.0",
-  "description": "Webpack loader to register components at build-time",
+  "description": "Webpack loader to automatically detect & import used components",
+  "files": [
+    "lib"
+  ],
   "main": "lib/index.js",
   "scripts": {
     "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/privatenumber/vue-global-component-loader.git"
+    "url": "git+https://github.com/privatenumber/vue-import-loader.git"
   },
   "author": "Hiroki Osame <hiroki.osame@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/privatenumber/vue-global-component-loader/issues"
+    "url": "https://github.com/privatenumber/vue-import-loader/issues"
   },
-  "homepage": "https://github.com/privatenumber/vue-global-component-loader#readme",
+  "homepage": "https://github.com/privatenumber/vue-import-loader#readme",
   "devDependencies": {
     "jest": "^26.0.1",
     "memfs": "^3.2.0",
@@ -29,7 +32,6 @@
     "acorn": "^7.2.0",
     "acorn-walk": "^7.1.1",
     "loader-utils": "^2.0.0",
-    "memory-fs": "^0.5.0",
     "vue-template-compiler": "^2.6.11"
   }
 }

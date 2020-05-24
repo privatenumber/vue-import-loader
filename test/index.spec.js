@@ -312,5 +312,45 @@ describe('Component Registration', () => {
 		const vm = mount(Vue, built);
 		expect(vm.$el.outerHTML).toBe('<div><h1>Hello <span>world</span></h1> <h1>goodbye <span>world</span></h1></div>');
 	});
+
+	test('Functional component', async () => {
+		const built = await build({
+			'/index.vue': outdent`
+				<template>
+					<goodbye-world/>
+				</template>
+			`,
+			'/components/goodbye-world.vue': outdent`
+			<template functional>
+				<h1><goodbye /> <world /></h1>
+			</template>
+			`,
+			'/components/goodbye.vue': outdent`
+			<template functional>
+				<span>good<bye /></span>
+			</template>
+			`,
+			'/components/bye.vue': outdent`
+			<template functional>
+				<span>bye</span>
+			</template>
+			`,
+			'/components/world.vue': outdent`
+			<template functional>
+				<span>world</span>
+			</template>
+			`,
+		}, {
+			components: {
+				GoodbyeWorld: '/components/goodbye-world.vue',
+				Goodbye: '/components/goodbye.vue',
+				Bye: '/components/bye.vue',
+				World: '/components/world.vue',
+			},
+		});
+
+		const vm = mount(Vue, built);
+		expect(vm.$el.outerHTML).toBe('<h1><span>good<span>bye</span></span> <span>world</span></h1>');
+	});
 });
 

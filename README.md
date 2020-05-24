@@ -25,7 +25,7 @@ npm i vue-import-loader
 ```
 
 ## 🚦 Quick Setup
-In your Webpack config, insert `vue-import-loader` before `vue-loader`
+In your Webpack config, insert `vue-import-loader` before `vue-loader`:
 
 **Before**
 ```js
@@ -63,7 +63,6 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`
 	]
 }
 ```
-
 
 ## ⚙️ Options
 - `components` `Object|Function`
@@ -105,17 +104,17 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`
   - Supports any Webpack build
   - Resolves components using a user-configured component-map or a resolution function
   - Has built-in static analysis to detect registered components
-  - Supports dynamic components `<component :is="">`
+  - Supports dynamic components if possible values are inline `<component :is="condition ? 'comp-a' : 'comp-b'">`
   - Supports [functional components](https://github.com/vuejs/vue-loader/issues/1013
 
 ### Why wouldn't I want to use this?
 The costs of implicitly registering components locally is close to [registering components globally](https://vuejs.org/v2/guide/components-registration.html#Global-Registration).
 
-- The benefit this has over global registration is that it doesn't import components blindly at the top-level of your App, but instead, imports them intelligently at each detected usage
+- The benefit this has over global registration is that it doesn't import components blindly at the top-level of your App, but instead, imports them intelligently at each detected usage. Unused components will not be bundled-in.
 
-- **Maintainability** Your components might become harder to maintain because of the lack of explicit dependencies.
+- **Maintainability** Your components might become harder to maintain because of the lack of explicitly declared dependencies.
   - **Automation magic** It's better to have code you understand and can control than to leave it to _magic_.
   - **Debugging** If there's a bug in your resolver, it might not be an obvious place to look or troubleshoot.
 
-- **Build-tool coupling** Module-level concerns are introduced into build configuration; perhaps comparable to creating aliases. Doing this couples the app to the build via configuration and makes it harder to migrate to a different environment (new tooling, upgrades, etc.)
+- **Build-tool coupling** Module-level concerns are introduced into the build configuration; perhaps comparable to creating aliases. Doing this couples the app to the build via config and makes it harder to migrate to a different environment (new tools, upgrades, etc).
 

@@ -8,7 +8,7 @@
 
 Webpack loader to automatically detect & import used components!
 
-Credits to the [@nuxt/components](https://github.com/nuxt/components) team for the idea ❤️
+Credits to the [@nuxt/components](https://github.com/nuxt/components) for the idea ❤️
 
 ## 🙋‍♀️ Why?
 - ⚡️ **Speed-up development** Automate registration concerns and focus on the logic!
@@ -50,11 +50,11 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`
 					...
 				}
 
-				// ... or pass in a resolver
+				// ... or pass in a resolver function
 				components({ kebab }, fromComponent) {
 					const componentPath = `../components/${kebab}.vue`;
 					if (fs.existsSync(componentPath)) {
-						return componentPath;
+						return `@/components/${kebab}`;
 					}
 				}
 			}
@@ -67,8 +67,22 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`
 
 ## ⚙️ Options
 - `components`
+  - `Object`
+    - Similar to Vue's `components` hash, where the key is the component tag in kebab-case or PascalCase, and the value is the component path (support aliases).
+
+  - `Function({ kebab, pascal }, fromComponent)`
+    - Use a function to dynamically resolve component tags to the component paths. For example, this function resolves components to the "components" directory:
+    ```js
+    components({ kebab }, fromComponent) {
+    	const componentPath = `../components/${kebab}.vue`;
+    	if (fs.existsSync(componentPath)) {
+    		return `@/components/${kebab}`;
+    	}
+    }
+    ```
+
 - `functional` (_Experimental_) `Boolean` (Default: `false`)
-  Whether to resolve components in functional components. Functional components are [known to not support the `components` hash](https://github.com/vuejs/vue-loader/issues/1013) but can be hacked around by registering the components to the parent instead. Since it mutates the parent's `component` hash, it is disabled by default.
+  - Whether to resolve components in functional components. Functional components are [known to not support the `components` hash](https://github.com/vuejs/vue-loader/issues/1013) but can be hacked around by registering the components to the parent instead. Since this feature mutates the parent's `component` hash, it is disabled by default.
 
 ## 💁‍♂️ FAQ
 ### How's this different from Vue's global registration?
@@ -94,9 +108,15 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`
   - Supports `<component :is=`
   - Supports functional components
 
-### So, what's the cost?
-- **App concerns in build config**
-- **Maintainability**
+### Why wouldn't I want to use this?
+The costs of implicitly registering components locally is close to [registering components globally](https://vuejs.org/v2/guide/components-registration.html#Global-Registration).
 
+- **Build tool coupling** This introduces module-level concerns into the build configuration; perhaps comparable to creating an alias. Doing this couples the app to the build via configuration and makes it harder to migrate to a different environment (new tooling, upgrades, etc.)
+
+- **Maintainability** Your components might become harder to maintain because of the lack of explicit dependencies.
+  - **Automation magic** It's better to have code you understand and can control than to leave it to _magic_.
+  - **Debugging** If there's a bug in your resolver, it might not be an obvious place to look or troubleshoot.
+
+- The benefit this has over global registration is that it doesn't import components blindly at the top-level of your App, but instead, imports them intelligently at each detected usage
 
 

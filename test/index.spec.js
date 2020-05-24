@@ -141,6 +141,81 @@ describe('Component Registration', () => {
 		expect(vm.$el.outerHTML).toBe('<div><h1>Hello <span>world</span></h1> <h1>goodbye <span>world</span></h1></div>');
 	});
 
+	test('Component collision w/ Pascal', async () => {
+		const built = await build({
+			'/index.vue': outdent`
+				<template>
+					<div>
+						<hello-world />
+					</div>
+				</template>
+				<script>
+				import HelloWorld from './hello-world-real.vue';
+
+				export default {
+					components: {
+						HelloWorld
+					}
+				}
+				</script>
+			`,
+			'/hello-world-real.vue': outdent`
+			<template>
+				<span>hello world real</span>
+			</template>
+			`,
+			'/hello-world-fake.vue': outdent`
+			<template>
+				<span>hello world fake</span>
+			</template>
+			`,
+		}, {
+			components: {
+				'hello-world': '/hello-world-fake.vue',
+			},
+		});
+
+		const vm = mount(Vue, built);
+		expect(vm.$el.outerHTML).toBe('<div><span>hello world real</span></div>');
+	});
+
+	test('Component collision w/ kebab', async () => {
+		const built = await build({
+			'/index.vue': outdent`
+				<template>
+					<div>
+						<hello-world />
+					</div>
+				</template>
+				<script>
+				import HelloWorld from './hello-world-real.vue';
+
+				export default {
+					components: {
+						'hello-world': HelloWorld
+					}
+				}
+				</script>
+			`,
+			'/hello-world-real.vue': outdent`
+			<template>
+				<span>hello world real</span>
+			</template>
+			`,
+			'/hello-world-fake.vue': outdent`
+			<template>
+				<span>hello world fake</span>
+			</template>
+			`,
+		}, {
+			components: {
+				'hello-world': '/hello-world-fake.vue',
+			},
+		});
+
+		const vm = mount(Vue, built);
+		expect(vm.$el.outerHTML).toBe('<div><span>hello world real</span></div>');
+	});
 
 	test('Dynamic component', async () => {
 		const built = await build({
@@ -227,9 +302,9 @@ describe('Component Registration', () => {
 			</template>
 			`
 		}, {
-			components(componentTag) {
-				if (['world', 'goodbye-world'].includes(componentTag)) {
-					return `/components/${componentTag}.vue`;
+			components({ kebab }) {
+				if (['world', 'goodbye-world'].includes(kebab)) {
+					return `/components/${kebab}.vue`;
 				}
 			},
 		});
@@ -238,3 +313,4 @@ describe('Component Registration', () => {
 		expect(vm.$el.outerHTML).toBe('<div><h1>Hello <span>world</span></h1> <h1>goodbye <span>world</span></h1></div>');
 	});
 });
+

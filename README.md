@@ -171,7 +171,7 @@ This demo shows how prefixing your components with `async-` in the template can 
   - `Object` Similar to Vue's `components` hash. Key is the component tag in kebab-case or PascalCase. 
       - Value can be:
         - `String`: Component path for synchronous loading (supports aliases)
-        - `Object`: Component data for [asynchronous loading](https://vuejs.org/v2/guide/components-dynamic-async.html#Async-Components)
+        - `Object`: Component data for [asynchronous loading](https://vuejs.org/v2/guide/components-dynamic-async.html#Async-Components) meeting the following schema:
 
 
   ```js

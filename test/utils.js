@@ -1,3 +1,4 @@
+const http = require('http');
 const path = require('path');
 const webpack = require('webpack');
 const { Volume } = require('memfs');
@@ -5,6 +6,34 @@ const fs = require('fs');
 const { ufs } = require('unionfs');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const loaderPath = require.resolve('..');
+
+const httpServer = (() => {
+	let fs;
+
+	const server = http.createServer((req, res) => {
+		res.write(fs.readFileSync(req.url));
+		setTimeout(() => res.end(), 200);
+	});	
+
+	return {
+		setFs(_fs) {
+			fs = _fs;
+		},
+		start() {
+			return new Promise((resolve) => {
+				this.listening = server.listen(0, resolve);
+			});
+		},
+		get port() {
+			return this.listening.address().port;
+		},
+		stop() {
+			return new Promise((resolve) => {
+				server.close(resolve);
+			});
+		}
+	};
+})();
 
 function build(volJson, loaderConfig = {}) {
 	return new Promise((resolve, reject) => {
@@ -46,7 +75,8 @@ function build(volJson, loaderConfig = {}) {
 			],
 			entry: '/index.vue',
 			output: {
-				path: '/dist',
+				path: '/dist-[hash]',
+				publicPath: `http://localhost:${httpServer.port}/dist-[hash]/`,
 			},
 		});
 
@@ -64,7 +94,8 @@ function build(volJson, loaderConfig = {}) {
 				return;
 			}
 
-			resolve(mfs.readFileSync('/dist/main.js').toString());
+			httpServer.setFs(mfs);
+			resolve(mfs.readFileSync(`/dist-${stats.hash}/main.js`).toString());
 		});
 	});
 }
@@ -77,6 +108,7 @@ function mount(Vue, src) {
 }
 
 module.exports = {
+	httpServer,
 	build,
 	mount,
 };

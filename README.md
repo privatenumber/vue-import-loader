@@ -6,16 +6,14 @@
 	<a href="https://bundlephobia.com/result?p=vue-import-loader"><img src="https://badgen.net/bundlephobia/minzip/vue-import-loader"></a>
 </h1>
 
-Webpack loader to automatically detect & import used components.
-
-Use this loader to "globally register" components without the bundling costs!
+Automate component registration concerns and focus on building component logic!
 
 Credits to the [@nuxt/components](https://github.com/nuxt/components) for the idea ❤️
 
-## 🙋‍♀️ Why?
-- ⚡️ **Speed-up development** Automate registration concerns and focus on the logic!
-- 🌳 **Tree-shaking** Only imports unregistered components detected in template!
+## ⭐️ Features
+- 🌳 **Tree-shaking** Only imports unregistered components detected in the template!
 - ❤️ **Chunking friendly** Locally registers components for optimal code-splitting!
+- ⚡️ **Async components** Supports the full [async component API](https://vuejs.org/v2/guide/components-dynamic-async.html#Async-Components)!
 - 💠 **Dynamic components** Supports `<component is="dynamic-comp">`! *
 - 🔥 **Functional components** Supports components in [functional components](https://github.com/vuejs/vue-loader/issues/1013)!
 
@@ -37,7 +35,7 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`:
 }
 ```
 
-**After ✨**
+**After <sup>✨</sup>**
 ```js
 {
 	test: /\.vue$/,
@@ -52,10 +50,11 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`:
 					...
 				}
 
-				// ... or pass in a resolver function
+				// Or
+
+				// Pass in a resolver function
 				components({ kebab }, fromComponent) {
-					const componentPath = `../components/${kebab}.vue`;
-					if (fs.existsSync(componentPath)) {
+					if (exists(kebab)) {
 						return `@/components/${kebab}`;
 					}
 				}
@@ -69,8 +68,16 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`:
 ## ⚙️ Options
 - `components` `Object|Function`
   - `Object`
-    - Similar to Vue's `components` hash, where the key is the component tag in kebab-case or PascalCase, and the value is the component path (support aliases).
-
+    - Similar to Vue's `components` hash:
+      - Key is the component tag in kebab-case or PascalCase
+      - Value:
+        - `String`: Component path (support aliases)
+        - `Object`: [Asynchronous component](https://vuejs.org/v2/guide/components-dynamic-async.html#Async-Components)
+          - `component`: Component path
+          - `loading`: Loading component
+          - `error` Error component
+          - `delay`, `timeout`: Directly passed into Vue's async component API
+          - `magicComments Array<String>`: [Webpack magic comments](https://webpack.js.org/api/module-methods/#magic-comments) to configure the dynamic import (eg. `webpackChunkName: "my-chunk-name"`)
   - `Function` `({ kebab, pascal }, fromComponent)`
     - Use a function to dynamically resolve component tags to component paths. For example, this function resolves components to the "components" directory:
     ```js
@@ -101,12 +108,15 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`:
 - **Nuxt.js Components**
   - Designed specifically for [Nuxt.js](https://nuxtjs.org)
   - Automatically resolves components in the "components" directory
+  - Supports async components but not the full API (eg. `loading`, `error`, `delay`, `timeout`)
 
 - **Vue Import loader**
   - Supports any Webpack build
   - Resolves components using a user-configured component-map or a resolution function
   - Has built-in static analysis to detect registered components
-  - Supports dynamic components if possible values are inline `<component :is="condition ? 'comp-a' : 'comp-b'">`
+  - Supports the full [async component API](https://vuejs.org/v2/guide/components-dynamic-async.html#Async-Components)
+  - Supports dynamic components if possible values are inline
+    - eg. `<component :is="condition ? 'comp-a' : 'comp-b'">`
   - Supports [functional components](https://github.com/vuejs/vue-loader/issues/1013)
 
 ### Why wouldn't I want to use this?

@@ -1,9 +1,16 @@
 const outdent = require('outdent');
 const Vue = require('vue');
-const { build, mount } = require('./utils');
+const { httpServer, build, mount } = require('./utils');
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
 Vue.config.productionTip = false;
 Vue.config.devtools = false;
+
+beforeAll(() => httpServer.start());
+afterAll(() => httpServer.stop());
+afterEach(() => {
+	window.webpackJsonp = null;
+});
 
 describe('Error handling', () => {
 	test('No options', async () => {
@@ -314,6 +321,190 @@ describe('Component Registration', () => {
 	});
 });
 
+
+describe('Async components', () => {
+
+	test('Basic async component', async () => {
+		const built = await build({
+			'/index.vue': outdent`
+				<template>
+					<div>
+						<hello-world />
+					</div>
+				</template>
+			`,
+			'/HelloWorld.vue': outdent`
+			<template>
+				<span>Hello world</span>
+			</template>
+			`,
+			'/LoadingComponent.vue': outdent`
+			<template>
+				<h1>Loading</h1>
+			</template>
+			`,
+			'/ErrorComponent.vue': outdent`
+			<template>
+				<h1>Error</h1>
+			</template>
+			`
+		}, {
+			components: {
+				HelloWorld: {
+					component: '/HelloWorld.vue',
+					loading: '/LoadingComponent.vue',
+					error: '/ErrorComponent.vue',
+					delay: 0,
+					timeout: 3000,
+				}
+			},
+		});
+
+		const vm = mount(Vue, built);
+
+		expect(vm.$el.outerHTML).toBe('<div><h1>Loading</h1></div>');
+
+		await sleep(300);
+		expect(vm.$el.outerHTML).toBe('<div><span>Hello world</span></div>');
+	}, 2000);
+
+	test('Magic comments', async () => {
+		const built = await build({
+			'/index.vue': outdent`
+				<template>
+					<div>
+						<hello-world />
+					</div>
+				</template>
+			`,
+			'/HelloWorlds.vue': outdent`
+			<template>
+				<span>Hello worlds!!!!!!</span>
+			</template>
+			`,
+			'/LoadingComponent.vue': outdent`
+			<template>
+				<h1>Loading</h1>
+			</template>
+			`,
+			'/ErrorComponent.vue': outdent`
+			<template>
+				<h1>Error</h1>
+			</template>
+			`
+		}, {
+			components: {
+				HelloWorld: {
+					magicComments: [
+						'webpackChunkName: "my-chunk-name"',
+						'webpackPrefetch: true',
+						'webpackPreload: true',
+					],
+					component: '/HelloWorlds.vue',
+					loading: '/LoadingComponent.vue',
+					error: '/ErrorComponent.vue',
+				},
+			},
+		});
+
+		expect(built).toMatch('my-chunk-name');
+
+		const vm = mount(Vue, built);
+
+		expect(vm.$el.outerHTML).toBe('<div><!----></div>');
+
+		await sleep(200);
+		expect(vm.$el.outerHTML).toBe('<div><h1>Loading</h1></div>');
+
+		await sleep(200);
+		expect(vm.$el.outerHTML).toBe('<div><span>Hello worlds!!!!!!</span></div>');
+	}, 2000);
+
+	test('Magic comments - eager', async () => {
+		const built = await build({
+			'/index.vue': outdent`
+				<template>
+					<div>
+						<hello-world />
+					</div>
+				</template>
+			`,
+			'/HelloWorlds.vue': outdent`
+			<template>
+				<span>Hello worlds!!!!!!</span>
+			</template>
+			`,
+			'/LoadingComponent.vue': outdent`
+			<template>
+				<h1>Loading</h1>
+			</template>
+			`,
+			'/ErrorComponent.vue': outdent`
+			<template>
+				<h1>Error</h1>
+			</template>
+			`
+		}, {
+			components: {
+				HelloWorld: {
+					magicComments: ['webpackMode: "eager"'],
+					component: '/HelloWorlds.vue',
+					loading: '/LoadingComponent.vue',
+					error: '/ErrorComponent.vue',
+				},
+			},
+		});
+
+		const vm = mount(Vue, built);
+
+		await sleep(100);
+		expect(vm.$el.outerHTML).toBe('<div><span>Hello worlds!!!!!!</span></div>');
+	}, 2000);
+
+	test('Resolver', async () => {
+		const built = await build({
+			'/index.vue': outdent`
+				<template>
+					<div>
+						<hello-world />
+					</div>
+				</template>
+			`,
+			'/HelloWorlds.vue': outdent`
+			<template>
+				<span>Hello worlds!!!!!!</span>
+			</template>
+			`,
+			'/LoadingComponent.vue': outdent`
+			<template>
+				<h1>Loading</h1>
+			</template>
+			`,
+			'/ErrorComponent.vue': outdent`
+			<template>
+				<h1>Error</h1>
+			</template>
+			`
+		}, {
+			components({ pascal }) {
+				if (pascal === 'HelloWorld') {
+					return {
+						magicComments: ['webpackMode: "eager"'],
+						component: '/HelloWorlds.vue',
+						loading: '/LoadingComponent.vue',
+						error: '/ErrorComponent.vue',
+					};
+				}
+			},
+		});
+
+		const vm = mount(Vue, built);
+
+		await sleep(100);
+		expect(vm.$el.outerHTML).toBe('<div><span>Hello worlds!!!!!!</span></div>');
+	}, 2000);
+});
+
 describe('Functional components', () => {
 	test('Functional mode disabled', async () => {
 		const built = await build({
@@ -502,5 +693,3 @@ describe('Unused component detection', () => {
 		});
 	});
 });
-
-

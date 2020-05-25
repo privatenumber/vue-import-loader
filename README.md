@@ -1,10 +1,4 @@
-<h1>
-	🌐 Vue Import Loader
-	<a href="https://npm.im/vue-import-loader"><img src="https://badgen.net/npm/v/vue-import-loader"></a>
-	<a href="https://npm.im/vue-import-loader"><img src="https://badgen.net/npm/dm/vue-import-loader"></a>
-	<a href="https://packagephobia.now.sh/result?p=vue-import-loader"><img src="https://packagephobia.now.sh/badge?p=vue-import-loader"></a>
-	<a href="https://bundlephobia.com/result?p=vue-import-loader"><img src="https://badgen.net/bundlephobia/minzip/vue-import-loader"></a>
-</h1>
+# 🌐 Vue Import Loader <a href="https://npm.im/vue-import-loader"><img src="https://badgen.net/npm/v/vue-import-loader"></a> <a href="https://npm.im/vue-import-loader"><img src="https://badgen.net/npm/dm/vue-import-loader"></a> <a href="https://packagephobia.now.sh/result?p=vue-import-loader"><img src="https://packagephobia.now.sh/badge?p=vue-import-loader"></a> <a href="https://bundlephobia.com/result?p=vue-import-loader"><img src="https://badgen.net/bundlephobia/minzip/vue-import-loader"></a>
 
 Automate component registration concerns and focus on building component logic!
 

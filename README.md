@@ -101,9 +101,7 @@ Map the component to an object to make it asynchronous. Refer to the **Options**
                         // Optional configs
                         loading: '/components/loading.vue',
                         error: '/components/error.vue',
-                        magicComments: [
-                            'webpackChunkName: "async-comps"',
-                        ]
+                        magicComments: ['webpackChunkName: "async-comps"']
                     }
                 }
             }
@@ -137,6 +135,7 @@ This demo shows how prefixing your components with `async-` in the template can 
                             // Optional configs
                             loading: '/components/loading.vue',
                             error: '/components/error.vue',
+                            magicComments: ['webpackChunkName: "async-comps"']
                         };
                     }
 

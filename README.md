@@ -168,17 +168,33 @@ This demo shows how prefixing your components with `async-` in the template can 
 
 ## ⚙️ Options
 - `components` `Object|Function`
-  - `Object`
-    - Similar to Vue's `components` hash:
-      - Key is the component tag in kebab-case or PascalCase
-      - Value:
-        - `String`: Component path (support aliases)
-        - `Object`: [Asynchronous component](https://vuejs.org/v2/guide/components-dynamic-async.html#Async-Components)
-          - `component`: Component path
-          - `loading`: Loading component
-          - `error` Error component
-          - `delay`, `timeout`: Directly passed into Vue's async component API
-          - `magicComments Array<String>`: [Webpack magic comments](https://webpack.js.org/api/module-methods/#magic-comments) to configure the dynamic import (eg. `webpackChunkName: "my-chunk-name"`)
+  - `Object` Similar to Vue's `components` hash. Key is the component tag in kebab-case or PascalCase. 
+      - Value can be:
+        - `String`: Component path for synchronous loading (supports aliases)
+        - `Object`: Component data for [asynchronous loading](https://vuejs.org/v2/guide/components-dynamic-async.html#Async-Components)
+            ```js
+            {
+                // Component path (Required)
+                component: '...',
+
+                // Path to Loading component
+                loading: '...',
+
+                // Path to Error component
+                error: '...',
+
+                // Delay in ms before Loading component is displayed
+                delay: 200,
+
+                // Timeout in ms before Error component is displayed
+                timeout: Infinity,
+
+                // Magic comments to configure the dynamic import: https://webpack.js.org/api/module-methods/#magic-comments
+                magicComponents: [
+                    'webpackChunkName: "my-chunk-name"'
+                ]
+            }
+            ```
   - `Function` `({ kebab, pascal }, fromComponent)`
     - Use a function to dynamically resolve component tags to component paths. For example, this function resolves components to the "components" directory:
     ```js

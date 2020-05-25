@@ -1,6 +1,5 @@
 module.exports = {
 	testEnvironmentOptions: {
-		runScripts: 'dangerously',
-		resources: 'usable'
+		resources: 'usable',
 	},
 };

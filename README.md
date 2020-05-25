@@ -6,11 +6,11 @@
 	<a href="https://bundlephobia.com/result?p=vue-import-loader"><img src="https://badgen.net/bundlephobia/minzip/vue-import-loader"></a>
 </h1>
 
-Use **Vue Import Loader** to automate component registration concerns and focus on the logic!
+Automate component registration concerns and focus on the logic!
 
 Credits to the [@nuxt/components](https://github.com/nuxt/components) for the idea ❤️
 
-## 🙋‍♀️ Features
+## ⭐️ Features
 - 🌳 **Tree-shaking** Only imports unregistered components detected in the template!
 - ❤️ **Chunking friendly** Locally registers components for optimal code-splitting!
 - ⚡️ **Async components** Supports the full [async component API](https://vuejs.org/v2/guide/components-dynamic-async.html#Async-Components)! *

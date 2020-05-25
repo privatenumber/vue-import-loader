@@ -66,7 +66,12 @@ function build(volJson, loaderConfig = {}) {
 								loader: 'vue-import-loader',
 								options: loaderConfig,
 							},
-							'vue-loader',
+							{
+								loader: 'vue-loader',
+								options: {
+									productionMode: true,
+								},
+							},
 						],
 					},
 				],

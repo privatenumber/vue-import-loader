@@ -135,24 +135,24 @@ Return an object to make it asynchronous. Refer to the **Options** section for t
             loader: 'vue-import-loader',
             options: {
                 components({ kebab }) {
-                	if (kebab.startsWith('async-')) {
-						return {
-						    component: `/components/${kebab.replace(/^async-/)}.vue`,
+                    if (kebab.startsWith('async-')) {
+                        return {
+                            component: `/components/${kebab.replace(/^async-/)}.vue`,
 
-						    // Optional configs
-						    loading: '/components/loading.vue',
-						    error: '/components/error.vue',
-						    delay: 200,
-						    timeout: 3000,
-						    magicComments: [
-						        'webpackChunkName: "my-chunk-name"',
-						        'webpackPrefetch: true',
-						        'webpackPreload: true'
-						    ]
-						}
-                	}
+                            // Optional configs
+                            loading: '/components/loading.vue',
+                            error: '/components/error.vue',
+                            delay: 200,
+                            timeout: 3000,
+                            magicComments: [
+                                'webpackChunkName: "my-chunk-name"',
+                                'webpackPrefetch: true',
+                                'webpackPreload: true'
+                            ]
+                        }
+                    }
 
-                	return `/components/${kebab}.vue`;
+                    return `/components/${kebab}.vue`;
                 }
             }
         },

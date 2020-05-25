@@ -6,14 +6,14 @@
 	<a href="https://bundlephobia.com/result?p=vue-import-loader"><img src="https://badgen.net/bundlephobia/minzip/vue-import-loader"></a>
 </h1>
 
-Automate Vue component registration concerns and focus on building component logic!
+Automate component registration concerns and focus on building component logic!
 
 Credits to the [@nuxt/components](https://github.com/nuxt/components) for the idea ❤️
 
 ## ⭐️ Features
 - 🌳 **Tree-shaking** Only imports unregistered components detected in the template!
 - ❤️ **Chunking friendly** Locally registers components for optimal code-splitting!
-- ⚡️ **Async components** Supports the full [async component API](https://vuejs.org/v2/guide/components-dynamic-async.html#Async-Components)! *
+- ⚡️ **Async components** Supports the full [async component API](https://vuejs.org/v2/guide/components-dynamic-async.html#Async-Components)!
 - 💠 **Dynamic components** Supports `<component is="dynamic-comp">`! *
 - 🔥 **Functional components** Supports components in [functional components](https://github.com/vuejs/vue-loader/issues/1013)!
 
@@ -35,7 +35,7 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`:
 }
 ```
 
-**After ✨**
+**After <sup>✨</sup>**
 ```js
 {
 	test: /\.vue$/,
@@ -50,10 +50,11 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`:
 					...
 				}
 
-				// ... or pass in a resolver function
+				// Or
+
+				// Pass in a resolver function
 				components({ kebab }, fromComponent) {
-					const componentPath = `../components/${kebab}.vue`;
-					if (fs.existsSync(componentPath)) {
+					if (exists(kebab)) {
 						return `@/components/${kebab}`;
 					}
 				}

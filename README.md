@@ -84,7 +84,7 @@ Use a resolver function to dynamically resolve components
 </details>
 
 <details>
-	<summary><strong>Asynchronous components with components hash</strong></summary>
+	<summary><strong>Asynchronous components with `components` hash</strong></summary>
 	<br>
 
 Map the component to an object to make it asynchronous. Refer to the **Options** section for the object schema.
@@ -96,10 +96,11 @@ Map the component to an object to make it asynchronous. Refer to the **Options**
             loader: 'vue-import-loader',
             options: {
                 components: {
+                	SyncComp: '/components/sync-comp.vue',
 
                     // Mapping to an object makes it asynchronous
-                    SomeComp: {
-                        component: '/components/some-comp.vue',
+                    AsyncComp: {
+                        component: '/components/async-comp.vue',
 
                         // Optional configs
                         loading: '/components/loading.vue',
@@ -112,6 +113,46 @@ Map the component to an object to make it asynchronous. Refer to the **Options**
                             'webpackPreload: true'
                         ]
                     }
+                }
+            }
+        },
+        'vue-loader'
+    ]
+}
+```
+</details>
+
+<details>
+	<summary><strong>Asynchronous components with `components` function</strong></summary>
+	<br>
+
+Return an object to make it asynchronous. Refer to the **Options** section for the object schema.
+```js
+{
+    test: /\.vue$/,
+    use: [
+        {
+            loader: 'vue-import-loader',
+            options: {
+                components({ kebab }) {
+                	if (kebab.startsWith('async-')) {
+						return {
+						    component: `/components/${kebab.replace(/^async-/)}.vue`,
+
+						    // Optional configs
+						    loading: '/components/loading.vue',
+						    error: '/components/error.vue',
+						    delay: 200,
+						    timeout: 3000,
+						    magicComments: [
+						        'webpackChunkName: "my-chunk-name"',
+						        'webpackPrefetch: true',
+						        'webpackPreload: true'
+						    ]
+						}
+                	}
+
+                	return `/components/${kebab}.vue`;
                 }
             }
         },

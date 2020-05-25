@@ -59,7 +59,7 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`:
 ## 👨‍🏫 Examples
 
 <details>
-	<summary><strong>Dynamically resolving components to a directory</strong></summary>
+	<summary><strong>Dynamically resolve components to a directory</strong></summary>
 	<br>
 
 Use a resolver function to dynamically resolve components
@@ -84,7 +84,7 @@ Use a resolver function to dynamically resolve components
 </details>
 
 <details>
-	<summary><strong>Asynchronously loading components with `components` hash</strong></summary>
+	<summary><strong>Asynchronously load components with `components` hash</strong></summary>
 	<br>
 
 Map the component to an object to make it asynchronous. Refer to the **Options** section for the object schema.
@@ -123,7 +123,7 @@ Map the component to an object to make it asynchronous. Refer to the **Options**
 </details>
 
 <details>
-	<summary><strong>Asynchronously loading components prefixed with `async-`</strong></summary>
+	<summary><strong>Asynchronously load components prefixed with `async-`</strong></summary>
 	<br>
 
 Return an object to make it asynchronous. Refer to the **Options** section for the object schema.

@@ -57,6 +57,7 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`:
 	<br>
 
 Use a resolver function to dynamically resolve components
+
 ```js
 {
     test: /\.vue$/,
@@ -82,6 +83,7 @@ Use a resolver function to dynamically resolve components
 	<br>
 
 Map the component to an object to make it asynchronous. Refer to the **Options** section for the object schema.
+
 ```js
 {
     test: /\.vue$/,
@@ -99,12 +101,8 @@ Map the component to an object to make it asynchronous. Refer to the **Options**
                         // Optional configs
                         loading: '/components/loading.vue',
                         error: '/components/error.vue',
-                        delay: 200,
-                        timeout: 3000,
                         magicComments: [
-                            'webpackChunkName: "my-chunk-name"',
-                            'webpackPrefetch: true',
-                            'webpackPreload: true'
+                            'webpackChunkName: "async-comps"',
                         ]
                     }
                 }
@@ -139,14 +137,7 @@ This demo shows how prefixing your components with `async-` in the template can 
                             // Optional configs
                             loading: '/components/loading.vue',
                             error: '/components/error.vue',
-                            delay: 200,
-                            timeout: 3000,
-                            magicComments: [
-                                'webpackChunkName: "my-chunk-name"',
-                                'webpackPrefetch: true',
-                                'webpackPreload: true'
-                            ]
-                        }
+                        };
                     }
 
                     return `/components/${kebab}.vue`;

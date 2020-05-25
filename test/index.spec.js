@@ -314,6 +314,7 @@ describe('Component Registration', () => {
 				if (['world', 'goodbye-world'].includes(kebab)) {
 					return `/components/${kebab}.vue`;
 				}
+				return undefined;
 			},
 		});
 
@@ -495,6 +496,7 @@ describe('Async components', () => {
 						error: '/ErrorComponent.vue',
 					};
 				}
+				return undefined;
 			},
 		});
 
@@ -686,7 +688,7 @@ describe('Unused component detection', () => {
 			components: {
 				'hello-world': '/hello-world-trap.vue',
 			},
-		}).catch((err) => {
+		}).catch(() => {
 			// Expect error
 			cb();
 		});

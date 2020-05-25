@@ -1,7 +1,8 @@
 const outdent = require('outdent');
 const Vue = require('vue');
 const { httpServer, build, mount } = require('./utils');
-const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 Vue.config.productionTip = false;
 Vue.config.devtools = false;
@@ -24,11 +25,11 @@ describe('Error handling', () => {
 			<template>
 				<span>world</span>
 			</template>
-			`
+			`,
 		});
 
 		const warnHandler = jest.fn();
-		Vue.config.warnHandler = warnHandler
+		Vue.config.warnHandler = warnHandler;
 
 		const vm = mount(Vue, built);
 
@@ -47,11 +48,11 @@ describe('Error handling', () => {
 			<template>
 				<span>world</span>
 			</template>
-			`
+			`,
 		}, {});
 
 		const warnHandler = jest.fn();
-		Vue.config.warnHandler = warnHandler
+		Vue.config.warnHandler = warnHandler;
 
 		const vm = mount(Vue, built);
 
@@ -72,7 +73,7 @@ describe('Component Registration', () => {
 			<template>
 				<span>world</span>
 			</template>
-			`
+			`,
 		}, {
 			components: {
 				CustomComp: '/CustomComp.vue',
@@ -103,7 +104,7 @@ describe('Component Registration', () => {
 			<template>
 				<h1>goodbye world</h1>
 			</template>
-			`
+			`,
 		}, {
 			components: {
 				world: '/world.vue',
@@ -135,7 +136,7 @@ describe('Component Registration', () => {
 			<template>
 				<h1>goodbye <WorldEl /></h1>
 			</template>
-			`
+			`,
 		}, {
 			components: {
 				'world-el': '/world.vue',
@@ -243,7 +244,7 @@ describe('Component Registration', () => {
 			<template>
 				<h1>goodbye <world /></h1>
 			</template>
-			`
+			`,
 		}, {
 			components: {
 				world: '/world.vue',
@@ -275,7 +276,7 @@ describe('Component Registration', () => {
 			<template>
 				<h1>goodbye <world /></h1>
 			</template>
-			`
+			`,
 		}, {
 			components: {
 				world: '@/components/world.vue',
@@ -307,7 +308,7 @@ describe('Component Registration', () => {
 			<template>
 				<h1>goodbye <world /></h1>
 			</template>
-			`
+			`,
 		}, {
 			components({ kebab }) {
 				if (['world', 'goodbye-world'].includes(kebab)) {
@@ -323,7 +324,6 @@ describe('Component Registration', () => {
 
 
 describe('Async components', () => {
-
 	test('Basic async component', async () => {
 		const built = await build({
 			'/index.vue': outdent`
@@ -347,7 +347,7 @@ describe('Async components', () => {
 			<template>
 				<h1>Error</h1>
 			</template>
-			`
+			`,
 		}, {
 			components: {
 				HelloWorld: {
@@ -356,7 +356,7 @@ describe('Async components', () => {
 					error: '/ErrorComponent.vue',
 					delay: 0,
 					timeout: 3000,
-				}
+				},
 			},
 		});
 
@@ -391,7 +391,7 @@ describe('Async components', () => {
 			<template>
 				<h1>Error</h1>
 			</template>
-			`
+			`,
 		}, {
 			components: {
 				HelloWorld: {
@@ -443,7 +443,7 @@ describe('Async components', () => {
 			<template>
 				<h1>Error</h1>
 			</template>
-			`
+			`,
 		}, {
 			components: {
 				HelloWorld: {
@@ -484,7 +484,7 @@ describe('Async components', () => {
 			<template>
 				<h1>Error</h1>
 			</template>
-			`
+			`,
 		}, {
 			components({ pascal }) {
 				if (pascal === 'HelloWorld') {
@@ -586,7 +586,6 @@ describe('Functional components', () => {
 		const vm = mount(Vue, built);
 		expect(vm.$el.outerHTML).toBe('<h1><span>good<span>bye</span></span> <span>world</span></h1>');
 	});
-
 });
 
 describe('Unused component detection', () => {
@@ -687,7 +686,7 @@ describe('Unused component detection', () => {
 			components: {
 				'hello-world': '/hello-world-trap.vue',
 			},
-		}).catch(err => {
+		}).catch((err) => {
 			// Expect error
 			cb();
 		});

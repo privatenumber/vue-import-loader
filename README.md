@@ -11,11 +11,11 @@ Automate component registration concerns and focus on building component logic!
 Credits to the [@nuxt/components](https://github.com/nuxt/components) for the idea ❤️
 
 ## ⭐️ Features
-- 🌳 **Tree-shaking** Only imports unregistered components detected in the template!
-- ❤️ **Chunking friendly** Locally registers components for optimal code-splitting!
-- ⚡️ **Async components** Supports the full [async component API](https://vuejs.org/v2/guide/components-dynamic-async.html#Async-Components)!
-- 💠 **Dynamic components** Supports `<component is="dynamic-comp">`! *
-- 🔥 **Functional components** Supports components in [functional components](https://github.com/vuejs/vue-loader/issues/1013)!
+- 🌳 **Tree-shaking** Only imports unregistered components detected in the template
+- ❤️ **Chunking friendly** Locally registers components for optimal code-splitting
+- ⚡️ **Async components** Supports the full [async component API](https://vuejs.org/v2/guide/components-dynamic-async.html#Async-Components)
+- 💠 **Dynamic components** Supports `<component is="dynamic-comp">` *
+- 🔥 **Functional components** Supports components in [functional components](https://github.com/vuejs/vue-loader/issues/1013)
 
 _* The `is` attribute must contain the possible values inline_
 

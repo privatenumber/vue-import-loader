@@ -172,29 +172,29 @@ This demo shows how prefixing your components with `async-` in the template can 
       - Value can be:
         - `String`: Component path for synchronous loading (supports aliases)
         - `Object`: Component data for [asynchronous loading](https://vuejs.org/v2/guide/components-dynamic-async.html#Async-Components)
-            ```js
-            {
-                // Component path (Required)
-                component: '...',
+```js
+{
+    // Component path (Required)
+    component: '...',
 
-                // Path to Loading component
-                loading: '...',
+    // Path to Loading component
+    loading: '...',
 
-                // Path to Error component
-                error: '...',
+    // Path to Error component
+    error: '...',
 
-                // Delay in ms before Loading component is displayed
-                delay: 200,
+    // Delay in ms before Loading component is displayed
+    delay: 200,
 
-                // Timeout in ms before Error component is displayed
-                timeout: Infinity,
+    // Timeout in ms before Error component is displayed
+    timeout: Infinity,
 
-                // Magic comments to configure the dynamic import: https://webpack.js.org/api/module-methods/#magic-comments
-                magicComponents: [
-                    'webpackChunkName: "my-chunk-name"'
-                ]
-            }
-            ```
+    // Magic comments to configure the dynamic import: https://webpack.js.org/api/module-methods/#magic-comments
+    magicComponents: [
+        'webpackChunkName: "my-chunk-name"'
+    ]
+}
+```
   - `Function` `({ kebab, pascal }, fromComponent)`
     - Use a function to dynamically resolve component tags to component paths. For example, this function resolves components to the "components" directory:
     ```js

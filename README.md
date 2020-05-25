@@ -179,10 +179,10 @@ This demo shows how prefixing your components with `async-` in the template can 
       // Component path (Required)
       component: '...',
 
-      // Path to Loading component
+      // Loading component path
       loading: '...',
 
-      // Path to Error component
+      // Error component path
       error: '...',
 
       // Delay in ms before Loading component is displayed
@@ -200,7 +200,7 @@ This demo shows how prefixing your components with `async-` in the template can 
   ```
 
   - `Function` `({ kebab, pascal }, fromComponent)`
-    - Use a function to dynamically resolve component tags to component paths. For example, this function resolves components to the "components" directory:
+    - Use a function to dynamically resolve component tags to component paths. Supports outputting a string for synchronous, and an object for asynchronous imports as defined above. For example, this function resolves components to the "components" directory:
     ```js
     components({ kebab }, fromComponent) {
     	const componentPath = `../components/${kebab}.vue`;

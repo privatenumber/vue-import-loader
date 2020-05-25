@@ -65,20 +65,58 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`:
 Use a resolver function to dynamically resolve components
 ```js
 {
-	test: /\.vue$/,
-	use: [
-		{
-			loader: 'vue-import-loader',
-			options: {
-				components({ kebab }, fromComponent) {
-					if (exists(kebab)) {
-						return `@/components/${kebab}`;
-					}
-				}
-			}
-		},
-		'vue-loader'
-	]
+    test: /\.vue$/,
+    use: [
+        {
+            loader: 'vue-import-loader',
+            options: {
+                components({ kebab }, fromComponent) {
+                    if (exists(kebab)) {
+                        return `@/components/${kebab}`;
+                    }
+                }
+            }
+        },
+        'vue-loader'
+    ]
+}
+```
+</details>
+
+<details>
+	<summary><strong>Asynchronous components with components hash</strong></summary>
+	<br>
+
+Map the component to an object to make it asynchronous. Refer to the **Options** section for the object schema.
+```js
+{
+    test: /\.vue$/,
+    use: [
+        {
+            loader: 'vue-import-loader',
+            options: {
+                components: {
+
+                    // Mapping to an object makes it asynchronous
+                    SomeComp: {
+                        component: '/components/some-comp.vue',
+
+                        // Optional configs
+                        loading: '/components/loading.vue',
+                        error: '/components/error.vue',
+                        delay: 200,
+                        timeout: 3000,
+                        magicComments: [
+                            'webpackChunkName: "my-chunk-name"',
+                            'webpackPrefetch: true',
+                            'webpackPreload: true'
+                        ]
+                    }
+                }
+            }
+        },
+        'vue-loader'
+    ]
 }
 ```
 </details>

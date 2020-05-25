@@ -172,6 +172,8 @@ This demo shows how prefixing your components with `async-` in the template can 
       - Value can be:
         - `String`: Component path for synchronous loading (supports aliases)
         - `Object`: Component data for [asynchronous loading](https://vuejs.org/v2/guide/components-dynamic-async.html#Async-Components)
+
+
   ```js
   {
       // Component path (Required)

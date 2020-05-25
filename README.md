@@ -49,10 +49,27 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`:
 					ComponentTag: 'component/path/component-tag.vue',
 					...
 				}
+			}
+		},
+		'vue-loader'
+	]
+}
+```
 
-				// Or
+## 👨‍🏫 Examples
 
-				// Pass in a resolver function
+<details>
+	<summary><strong>Dynamically resolving components</strong></summary>
+	<br>
+
+Use a resolver function to dynamically resolve components
+```js
+{
+	test: /\.vue$/,
+	use: [
+		{
+			loader: 'vue-import-loader',
+			options: {
 				components({ kebab }, fromComponent) {
 					if (exists(kebab)) {
 						return `@/components/${kebab}`;
@@ -64,6 +81,8 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`:
 	]
 }
 ```
+</details>
+
 
 ## ⚙️ Options
 - `components` `Object|Function`

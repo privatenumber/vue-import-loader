@@ -92,7 +92,7 @@ Map the component to an object to make it asynchronous. Refer to the **Options**
             loader: 'vue-import-loader',
             options: {
                 components: {
-                	SyncComp: '/components/sync-comp.vue',
+                    SyncComp: '/components/sync-comp.vue',
 
                     // Mapping to an object makes it asynchronous
                     AsyncComp: {

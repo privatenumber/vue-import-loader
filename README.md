@@ -6,7 +6,7 @@
 	<a href="https://bundlephobia.com/result?p=vue-import-loader"><img src="https://badgen.net/bundlephobia/minzip/vue-import-loader"></a>
 </h1>
 
-Automate component registration concerns and focus on the logic!
+Automate Vue component registration concerns and focus on building component logic!
 
 Credits to the [@nuxt/components](https://github.com/nuxt/components) for the idea ❤️
 

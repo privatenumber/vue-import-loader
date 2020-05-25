@@ -30,29 +30,29 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`:
 **Before**
 ```js
 {
-	test: /\.vue$/,
-	loader: 'vue-loader'
+    test: /\.vue$/,
+    loader: 'vue-loader'
 }
 ```
 
 **After <sup>✨</sup>**
 ```js
 {
-	test: /\.vue$/,
-	use: [
-		{
-			loader: 'vue-import-loader',
-			options: {
+    test: /\.vue$/,
+    use: [
+        {
+            loader: 'vue-import-loader',
+            options: {
 
-				// Similar to Vue's "components" hash
-				components: {
-					ComponentTag: 'component/path/component-tag.vue',
-					...
-				}
-			}
-		},
-		'vue-loader'
-	]
+                // Similar to Vue's "components" hash
+                components: {
+                    ComponentTag: 'component/path/component-tag.vue',
+                    ...
+                }
+            }
+        },
+        'vue-loader'
+    ]
 }
 ```
 

@@ -108,14 +108,15 @@ In your Webpack config, insert `vue-import-loader` before `vue-loader`:
 - **Nuxt.js Components**
   - Designed specifically for [Nuxt.js](https://nuxtjs.org)
   - Automatically resolves components in the "components" directory
-  - Supports async components but not the full API (`loading`, `error`, `delay`, `timeout`)
+  - Supports async components but not the full API (eg. `loading`, `error`, `delay`, `timeout`)
 
 - **Vue Import loader**
   - Supports any Webpack build
   - Resolves components using a user-configured component-map or a resolution function
   - Has built-in static analysis to detect registered components
   - Supports the full [async component API](https://vuejs.org/v2/guide/components-dynamic-async.html#Async-Components)
-  - Supports dynamic components if possible values are inline `<component :is="condition ? 'comp-a' : 'comp-b'">`
+  - Supports dynamic components if possible values are inline
+    - eg. `<component :is="condition ? 'comp-a' : 'comp-b'">`
   - Supports [functional components](https://github.com/vuejs/vue-loader/issues/1013)
 
 ### Why wouldn't I want to use this?

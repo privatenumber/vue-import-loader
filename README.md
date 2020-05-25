@@ -189,7 +189,8 @@ This demo shows how prefixing your components with `async-` in the template can 
     // Timeout in ms before Error component is displayed
     timeout: Infinity,
 
-    // Magic comments to configure the dynamic import: https://webpack.js.org/api/module-methods/#magic-comments
+    // Magic comments to configure the dynamic import:
+    // https://webpack.js.org/api/module-methods/#magic-comments
     magicComponents: [
         'webpackChunkName: "my-chunk-name"'
     ]

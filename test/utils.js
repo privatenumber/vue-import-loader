@@ -5,19 +5,20 @@ const { Volume } = require('memfs');
 const fs = require('fs');
 const { ufs } = require('unionfs');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+
 const loaderPath = require.resolve('..');
 
 const httpServer = (() => {
-	let fs;
+	let builtFs;
 
 	const server = http.createServer((req, res) => {
-		res.write(fs.readFileSync(req.url));
+		res.write(builtFs.readFileSync(req.url));
 		setTimeout(() => res.end(), 200);
-	});	
+	});
 
 	return {
-		setFs(_fs) {
-			fs = _fs;
+		setFs(_builtFs) {
+			builtFs = _builtFs;
 		},
 		start() {
 			return new Promise((resolve) => {
@@ -31,7 +32,7 @@ const httpServer = (() => {
 			return new Promise((resolve) => {
 				server.close(resolve);
 			});
-		}
+		},
 	};
 })();
 
@@ -48,7 +49,7 @@ function build(volJson, loaderConfig = {}) {
 			},
 			resolve: {
 				alias: {
-					'@': '/'
+					'@': '/',
 				},
 			},
 			resolveLoader: {
@@ -101,6 +102,7 @@ function build(volJson, loaderConfig = {}) {
 }
 
 function mount(Vue, src) {
+	// eslint-disable-next-line no-eval
 	const { default: Component } = eval(src);
 	const vm = new Vue(Component);
 	vm.$mount();

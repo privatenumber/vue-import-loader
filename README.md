@@ -22,31 +22,31 @@ npm i vue-import-loader
 In your Webpack config, insert `vue-import-loader` before `vue-loader`:
 
 **Before**
-```js
+```diff
 {
-    test: /\.vue$/,
-    loader: 'vue-loader'
+     test: /\.vue$/,
+-    loader: 'vue-loader'
 }
 ```
 
 **After <sup>✨</sup>**
-```js
+```diff
 {
-    test: /\.vue$/,
-    use: [
-        {
-            loader: 'vue-import-loader',
-            options: {
-
-                // Similar to Vue's "components" hash
-                components: {
-                    ComponentTag: 'component/path/component-tag.vue',
-                    ...
-                }
-            }
-        },
-        'vue-loader'
-    ]
+     test: /\.vue$/,
++    use: [
++        {
++            loader: 'vue-import-loader',
++            options: {
++
++                // Similar to Vue's "components" hash
++                components: {
++                    ComponentTag: 'component/path/component-tag.vue',
++                    ...
++                }
++            }
++        },
++        'vue-loader'
++    ]
 }
 ```
 

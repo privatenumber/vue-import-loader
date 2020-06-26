@@ -1,6 +1,6 @@
 # 🌐 Vue Import Loader <a href="https://npm.im/vue-import-loader"><img src="https://badgen.net/npm/v/vue-import-loader"></a> <a href="https://npm.im/vue-import-loader"><img src="https://badgen.net/npm/dm/vue-import-loader"></a> <a href="https://packagephobia.now.sh/result?p=vue-import-loader"><img src="https://packagephobia.now.sh/badge?p=vue-import-loader"></a>
 
-Automate component registration concerns and focus on building component logic!
+Webpack loader to automate local component registration by statically analyzing components in the template.
 
 Credits to the [@nuxt/components](https://github.com/nuxt/components) for the idea ❤️
 
